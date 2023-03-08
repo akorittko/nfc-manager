@@ -82,7 +82,8 @@ class _RecordColumn extends StatelessWidget {
 }
 
 class NdefRecordInfo {
-  const NdefRecordInfo({required this.record, required this.title, required this.subtitle});
+  const NdefRecordInfo(
+      {required this.record, required this.title, required this.subtitle});
 
   final Record record;
 
@@ -96,7 +97,8 @@ class NdefRecordInfo {
       return NdefRecordInfo(
         record: _record,
         title: 'Wellknown Text',
-        subtitle: '(${_record.languageCode}) ${_record.text}',
+        subtitle: '${_record.text}',
+        // subtitle: '(${_record.languageCode}) ${_record.text}',
       );
     if (_record is WellknownUriRecord)
       return NdefRecordInfo(
@@ -133,7 +135,8 @@ class NdefRecordInfo {
       return NdefRecordInfo(
         record: _record,
         title: _typeNameFormatToString(_record.record.typeNameFormat),
-        subtitle: '(${_record.record.type.toHexString()}) ${_record.record.payload.toHexString()}',
+        subtitle:
+            '(${_record.record.type.toHexString()}) ${_record.record.payload.toHexString()}',
       );
     }
     throw UnimplementedError();

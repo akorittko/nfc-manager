@@ -30,7 +30,8 @@ class TagReadModel with ChangeNotifier {
           requestCode: FeliCaPollingRequestCode.noRequest,
           timeSlot: FeliCaPollingTimeSlot.max1,
         );
-        additionalData!['manufacturerParameter'] = polling.manufacturerParameter;
+        additionalData!['manufacturerParameter'] =
+            polling.manufacturerParameter;
       }
     }
 
@@ -41,9 +42,9 @@ class TagReadModel with ChangeNotifier {
 
 class TagReadPage extends StatelessWidget {
   static Widget withDependency() => ChangeNotifierProvider<TagReadModel>(
-    create: (context) => TagReadModel(),
-    child: TagReadPage(),
-  );
+        create: (context) => TagReadModel(),
+        child: TagReadPage(),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +58,13 @@ class TagReadPage extends StatelessWidget {
           FormSection(
             children: [
               FormRow(
-                title: Text('Start Session', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                title: Text('Start Session',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary)),
                 onTap: () => startSession(
                   context: context,
-                  handleTag: Provider.of<TagReadModel>(context, listen: false).handleTag,
+                  handleTag: Provider.of<TagReadModel>(context, listen: false)
+                      .handleTag,
                 ),
               ),
             ],
@@ -96,13 +100,8 @@ class _TagInfo extends StatelessWidget {
     if (Platform.isAndroid) {
       tagWidgets.add(FormRow(
         title: Text('Identifier'),
-        subtitle: Text('${(
-          NfcA.from(tag)?.identifier ??
-          NfcB.from(tag)?.identifier ??
-          NfcF.from(tag)?.identifier ??
-          NfcV.from(tag)?.identifier ??
-          Uint8List(0)
-        ).toHexString()}'),
+        subtitle: Text(
+            '${(NfcA.from(tag)?.identifier ?? NfcB.from(tag)?.identifier ?? NfcF.from(tag)?.identifier ?? NfcV.from(tag)?.identifier ?? Uint8List(0)).toHexString()}'),
       ));
       tagWidgets.add(FormRow(
         title: Text('Tech List'),
@@ -253,7 +252,8 @@ class _TagInfo extends StatelessWidget {
     if (Platform.isIOS) {
       tech = FeliCa.from(tag);
       if (tech is FeliCa) {
-        final manufacturerParameter = additionalData['manufacturerParameter'] as Uint8List?;
+        final manufacturerParameter =
+            additionalData['manufacturerParameter'] as Uint8List?;
         tagWidgets.add(FormRow(
           title: Text('Type'),
           subtitle: Text('FeliCa'),
@@ -350,7 +350,8 @@ class _TagInfo extends StatelessWidget {
         ));
       ndefWidgets.add(FormRow(
         title: Text('Size'),
-        subtitle: Text('${cachedMessage?.byteLength ?? 0} / ${tech.maxSize} bytes'),
+        subtitle:
+            Text('${cachedMessage?.byteLength ?? 0} / ${tech.maxSize} bytes'),
       ));
       ndefWidgets.add(FormRow(
         title: Text('Writable'),
@@ -369,9 +370,11 @@ class _TagInfo extends StatelessWidget {
             title: Text('#$i ${info.title}'),
             subtitle: Text('${info.subtitle}'),
             trailing: Icon(Icons.chevron_right),
-            onTap: () => Navigator.push(context, MaterialPageRoute(
-              builder: (context) => NdefRecordPage(i, record),
-            )),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NdefRecordPage(i, record),
+                )),
           ));
         });
     }
@@ -394,24 +397,16 @@ class _TagInfo extends StatelessWidget {
 
 String _getTechListString(NfcTag tag) {
   final techList = <String>[];
-  if (tag.data.containsKey('nfca'))
-    techList.add('NfcA');
-  if (tag.data.containsKey('nfcb'))
-    techList.add('NfcB');
-  if (tag.data.containsKey('nfcf'))
-    techList.add('NfcF');
-  if (tag.data.containsKey('nfcv'))
-    techList.add('NfcV');
-  if (tag.data.containsKey('isodep'))
-    techList.add('IsoDep');
-  if (tag.data.containsKey('mifareclassic'))
-    techList.add('MifareClassic');
+  if (tag.data.containsKey('nfca')) techList.add('NfcA');
+  if (tag.data.containsKey('nfcb')) techList.add('NfcB');
+  if (tag.data.containsKey('nfcf')) techList.add('NfcF');
+  if (tag.data.containsKey('nfcv')) techList.add('NfcV');
+  if (tag.data.containsKey('isodep')) techList.add('IsoDep');
+  if (tag.data.containsKey('mifareclassic')) techList.add('MifareClassic');
   if (tag.data.containsKey('mifareultralight'))
     techList.add('MifareUltralight');
-  if (tag.data.containsKey('ndef'))
-    techList.add('Ndef');
-  if (tag.data.containsKey('ndefformatable'))
-    techList.add('NdefFormatable');
+  if (tag.data.containsKey('ndef')) techList.add('Ndef');
+  if (tag.data.containsKey('ndefformatable')) techList.add('NdefFormatable');
   return techList.join(' / ');
 }
 
