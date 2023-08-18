@@ -8,6 +8,7 @@ import 'package:app/view/ndef_write.dart';
 import 'package:app/view/ndef_write_lock.dart';
 import 'package:app/view/tag_read.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
@@ -116,7 +117,7 @@ ThemeData _themeData(Brightness brightness) {
       900: Color(0xFF255CFD),
     }),
     appBarTheme: AppBarTheme(
-      brightness: Brightness.dark,
+      systemOverlayStyle: SystemUiOverlayStyle.light,
     ),
     inputDecorationTheme: InputDecorationTheme(
       isDense: true,
